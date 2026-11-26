@@ -1,0 +1,3 @@
+@extends('layouts.app')
+@section('title','My profile')
+@section('content')<div class="welcome-row compact"><div><div class="eyebrow">ACCOUNT</div><h1>My profile</h1><p class="subtitle">Your CampusCare account information.</p></div></div><div class="panel profile-card"><span class="profile-avatar-large">{{ strtoupper(substr(auth()->user()->name,0,1)) }}</span><div><small>FULL NAME</small><strong>{{ auth()->user()->name }}</strong></div><div><small>EMAIL ADDRESS</small><strong>{{ auth()->user()->email }}</strong></div><div><small>ACCOUNT ROLE</small><strong>{{ str_replace('_',' ',ucfirst(auth()->user()->role)) }}</strong></div><div><small>MEMBER SINCE</small><strong>{{ auth()->user()->created_at->format('F Y') }}</strong></div></div>@endsection

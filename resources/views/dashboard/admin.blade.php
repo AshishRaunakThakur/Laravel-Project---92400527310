@@ -1,0 +1,23 @@
+@extends('layouts.app')
+@section('title','Admin dashboard')
+@section('content')
+<div class="welcome-row"><div><div class="eyebrow"><span class="live-dot"></span> ADMIN OVERVIEW</div><h1>Welcome, {{ auth()->user()->name }} <span class="wave">✦</span></h1><p class="subtitle">Campus operations at a glance. Here is what needs attention.</p></div><a href="{{ route('admin.records.create') }}" class="btn btn-primary btn-new"><i class="bi bi-plus-lg"></i> New task</a></div>
+<div class="stats-grid admin-stat-grid">
+<div class="stat-card stat-total"><div class="stat-head">All cleaning tasks <span class="stat-icon"><i class="bi bi-clipboard2-check"></i></span></div><div class="stat-number">{{ $taskCounts['total'] }}</div><div class="stat-foot">Tracked in the system</div></div>
+<div class="stat-card"><div class="stat-head">Waiting for review <span class="stat-icon icon-amber"><i class="bi bi-inbox"></i></span></div><div class="stat-number">{{ $requestCounts['submitted'] }}</div><div class="stat-foot">New campus requests</div></div>
+<div class="stat-card"><div class="stat-head">Approved & assigned <span class="stat-icon icon-blue"><i class="bi bi-person-check"></i></span></div><div class="stat-number">{{ $requestCounts['assigned'] }}</div><div class="stat-foot">Requests in the work queue</div></div>
+<div class="stat-card"><div class="stat-head">In progress <span class="stat-icon icon-blue"><i class="bi bi-arrow-repeat"></i></span></div><div class="stat-number">{{ $taskCounts['inProgress'] }}</div><div class="stat-foot">Being taken care of</div></div>
+<div class="stat-card"><div class="stat-head">Completed <span class="stat-icon icon-green"><i class="bi bi-check2-circle"></i></span></div><div class="stat-number">{{ $taskCounts['completed'] }}</div><div class="stat-foot">Campus-ready spaces</div></div>
+<div class="stat-card"><div class="stat-head">Rejected requests <span class="stat-icon icon-purple"><i class="bi bi-x-circle"></i></span></div><div class="stat-number">{{ $requestCounts['rejected'] }}</div><div class="stat-foot">With a recorded reason</div></div>
+<div class="stat-card stat-overdue"><div class="stat-head">Overdue tasks <span class="stat-icon icon-red"><i class="bi bi-exclamation-circle"></i></span></div><div class="stat-number">{{ $taskCounts['overdue'] }}</div><div class="stat-foot">Past schedule, still open</div></div>
+<div class="stat-card"><div class="stat-head">Pending tasks <span class="stat-icon icon-amber"><i class="bi bi-hourglass-split"></i></span></div><div class="stat-number">{{ $taskCounts['pending'] }}</div><div class="stat-foot">Ready for staff to begin</div></div>
+</div>
+<div class="section-heading"><div><h2>New campus requests</h2><p>Review submissions and assign approved work</p></div><a href="{{ route('admin.requests.index') }}" class="text-link">Manage requests <i class="bi bi-arrow-right"></i></a></div>
+<div class="panel schedule-panel mb-4">
+@forelse($recentRequests as $item)<a class="schedule-row" href="{{ route('requests.show',$item) }}"><span class="request-icon"><i class="bi bi-chat-square-text"></i></span><div class="schedule-info"><strong>{{ $item->campusLocation->name }}</strong><span>{{ $item->requester->name }} · {{ $item->cleaningCategory->name }} · {{ $item->submitted_at->diffForHumans() }}</span></div><span class="badge-status status-{{ \Illuminate\Support\Str::slug($item->status) }}">{{ $item->status }}</span><i class="bi bi-chevron-right row-chevron"></i></a>@empty<div class="empty-state"><span class="empty-icon"><i class="bi bi-inbox"></i></span><strong>No requests to review</strong><p>Campus user submissions will appear here.</p></div>@endforelse
+</div>
+<div class="section-heading"><div><h2>Recent task activity</h2><p>Latest updates from campus cleaning</p></div><a href="{{ route('admin.reports.index') }}" class="text-link">Open reports <i class="bi bi-arrow-right"></i></a></div>
+<div class="panel schedule-panel">
+@forelse($recentTasks as $record)<a class="schedule-row" href="{{ route('admin.records.show',$record) }}"><div class="date-block"><strong>{{ $record->scheduled_date->format('d') }}</strong><small>{{ $record->scheduled_date->format('M') }}</small></div><div class="schedule-info"><strong>{{ $record->campusLocation?->name ?? $record->location }}</strong><span>{{ $record->cleaningCategory?->name ?? $record->category }} · {{ $record->assignedStaff?->name ?? $record->assigned_staff }}</span></div><span class="badge-status status-{{ \Illuminate\Support\Str::slug($record->status) }}">{{ $record->status }}</span></a>@empty<div class="empty-state"><strong>No cleaning tasks yet</strong><p>Create a task directly or approve a campus request.</p></div>@endforelse
+</div>
+@endsection

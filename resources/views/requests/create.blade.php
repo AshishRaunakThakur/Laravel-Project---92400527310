@@ -1,0 +1,13 @@
+@extends('layouts.app')
+@section('title','Submit cleaning request')
+@section('content')
+<div class="welcome-row compact"><div><div class="eyebrow">CAMPUS REQUEST PORTAL</div><h1>Submit a cleaning request</h1><p class="subtitle">Tell the facilities team what needs attention. An administrator will review it before work is scheduled.</p></div></div>
+<div class="panel form-panel request-form-panel"><form method="POST" action="{{ route('requests.store') }}">@csrf
+<div class="form-section"><div class="form-section-heading"><span class="form-section-icon"><i class="bi bi-chat-square-heart"></i></span><div><strong>Request details</strong><small>Where is the issue, and what should the team know?</small></div></div><div class="row g-3">
+<div class="col-md-6"><label class="form-label" for="location_id">Campus location <span class="required">*</span></label><select class="form-select" id="location_id" name="location_id" required><option value="">Choose location</option>@foreach($locations as $location)<option value="{{ $location->id }}" @selected(old('location_id')==$location->id)>{{ $location->name }}{{ $location->building ? ' · '.$location->building : '' }}</option>@endforeach</select></div>
+<div class="col-md-6"><label class="form-label" for="category_id">Cleaning category <span class="required">*</span></label><select class="form-select" id="category_id" name="category_id" required><option value="">Choose category</option>@foreach($categories as $category)<option value="{{ $category->id }}" @selected(old('category_id')==$category->id)>{{ $category->name }}</option>@endforeach</select></div>
+<div class="col-12"><label class="form-label" for="description">Describe the issue <span class="required">*</span></label><textarea class="form-control" id="description" name="description" rows="5" maxlength="2000" placeholder="What needs cleaning? Include useful details for the facilities team." required>{{ old('description') }}</textarea><div class="form-hint">Requests are reviewed by an administrator before a task is created.</div></div>
+<div class="col-md-6"><label class="form-label" for="suggested_priority">Suggested priority <span class="muted-label">Optional</span></label><select class="form-select" id="suggested_priority" name="suggested_priority"><option value="">No suggestion</option>@foreach($priorities as $p)<option value="{{ $p->name }}" @selected(old('suggested_priority')===$p->name)>{{ $p->name }}</option>@endforeach</select></div></div></div>
+<div class="form-actions"><a href="{{ route('dashboard') }}" class="btn btn-light">Cancel</a><button class="btn btn-primary" type="submit"><i class="bi bi-send me-1"></i> Submit request</button></div>
+</form></div>
+@endsection
