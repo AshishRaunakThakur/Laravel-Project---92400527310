@@ -1,0 +1,4 @@
+<?php $__env->startSection('title','Access denied'); ?>
+<?php $__env->startSection('content'); ?><div class="empty-state error-page"><span class="empty-icon"><i class="bi bi-shield-lock"></i></span><strong>That page is restricted</strong><p>Your account does not have permission to view this page.</p><a href="<?php echo e(route('dashboard')); ?>" class="btn btn-primary">Back to my dashboard</a></div><?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\campus-cleaning\resources\views\errors\403.blade.php ENDPATH**/ ?>

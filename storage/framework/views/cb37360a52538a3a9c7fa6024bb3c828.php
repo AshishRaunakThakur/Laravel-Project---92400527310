@@ -1,0 +1,4 @@
+<?php $__env->startSection('title','Edit cleaning task'); ?><?php $__env->startSection('crumb','Edit task'); ?>
+<?php $__env->startSection('content'); ?><div class="welcome-row compact"><div><div class="eyebrow">TASK MANAGEMENT</div><h1>Edit cleaning task</h1><p class="subtitle">Update the details for <?php echo e($record->location); ?>.</p></div></div><div class="panel form-panel"><?php echo $__env->make('records._form',['action'=>route('admin.records.update',$record),'method'=>'PUT','submitLabel'=>'Save changes'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?></div><?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\campus-cleaning\resources\views\records\edit.blade.php ENDPATH**/ ?>
